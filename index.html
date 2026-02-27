@@ -13,13 +13,11 @@
 }
 body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB",sans-serif; background:#f0f0f0; display:flex; justify-content:center; min-height:100vh; padding:20px 0; }
 .phone { width:430px; max-width:100%; min-height:90vh; background:var(--gray); border-radius:32px; overflow:hidden; position:relative; box-shadow:0 8px 40px rgba(0,0,0,0.15); }
-
-/* Screens */
 .screen { display:none; min-height:90vh; animation:fadeIn .3s ease; }
 .screen.active { display:block; }
 @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
 
-/* === SPLASH === */
+/* SPLASH */
 #splash { background:linear-gradient(135deg,#E02020 0%,#c41818 100%); color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 24px; text-align:center; }
 #splash.active { display:flex; }
 #splash h1 { font-size:32px; font-weight:800; margin-bottom:8px; letter-spacing:-0.5px; }
@@ -31,8 +29,10 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
 .city-btn .icon { font-size:28px; display:block; margin-bottom:6px; }
 .city-btn .name { display:block; }
 #splash .hint { font-size:13px; opacity:.6; margin-top:8px; }
+.splash-resume { margin-top:24px; background:rgba(255,255,255,.25); border:1.5px solid rgba(255,255,255,.4); color:#fff; padding:14px 28px; border-radius:14px; font-size:15px; font-weight:600; cursor:pointer; display:none; transition:all .2s; }
+.splash-resume:hover { background:rgba(255,255,255,.4); }
 
-/* === ONBOARDING === */
+/* ONBOARDING */
 #onboard { background:#fff; padding:0; }
 .ob-header { background:var(--red); color:#fff; padding:48px 24px 28px; }
 .ob-header h2 { font-size:24px; font-weight:700; }
@@ -56,17 +56,21 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
 .ob-toggle::after { content:''; position:absolute; top:3px; left:3px; width:22px; height:22px; background:#fff; border-radius:50%; transition:left .2s; box-shadow:0 1px 3px rgba(0,0,0,.2); }
 .ob-toggle.on::after { left:23px; }
 
-/* === DASHBOARD === */
+/* DASHBOARD */
 #dashboard { background:var(--gray); padding-bottom:80px; }
 .dash-top { background:var(--red); color:#fff; padding:52px 20px 20px; }
 .dash-top-row { display:flex; justify-content:space-between; align-items:center; }
 .dash-city { font-size:22px; font-weight:700; }
 .dash-weather { font-size:14px; opacity:.9; display:flex; align-items:center; gap:6px; }
 .dash-date { font-size:13px; opacity:.7; margin-top:4px; }
+.dash-prefs { display:flex; gap:6px; margin-top:10px; flex-wrap:wrap; }
+.dash-pref-tag { font-size:11px; background:rgba(255,255,255,.2); padding:3px 10px; border-radius:12px; }
 .dash-cards { padding:16px; display:flex; flex-direction:column; gap:14px; margin-top:-8px; }
+.dash-reset { font-size:12px; opacity:.7; cursor:pointer; text-decoration:underline; }
 
 /* Cards */
-.card { background:#fff; border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); transition:transform .2s; }
+.card { background:#fff; border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); transition:all .3s; }
+.card.hidden { display:none; }
 .card:active { transform:scale(0.98); }
 .card-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
 .card-title { font-size:16px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:8px; }
@@ -75,7 +79,7 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
 .card-badge.orange { background:#f59e0b; }
 .card-more { font-size:13px; color:var(--red); font-weight:600; cursor:pointer; }
 
-/* Life Brief Card */
+/* Brief */
 .brief-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px; margin-bottom:16px; }
 .brief-item { text-align:center; padding:10px 4px; background:var(--gray); border-radius:12px; }
 .brief-item .val { font-size:18px; font-weight:700; color:var(--text); }
@@ -85,22 +89,29 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
 .brief-news li:last-child { border:none; }
 .brief-news .dot { color:var(--red); font-weight:700; flex-shrink:0; }
 
-/* Safety Card */
+/* Commute */
+.commute-box { padding:12px; background:var(--gray); border-radius:12px; margin-top:10px; display:flex; align-items:center; gap:10px; }
+.commute-box .icon { font-size:24px; }
+.commute-box .info { font-size:13px; line-height:1.5; }
+.commute-box .info strong { color:var(--text); }
+
+/* Safety */
 .safety-items { display:flex; flex-direction:column; gap:10px; }
 .safety-item { display:flex; gap:10px; align-items:flex-start; padding:10px 12px; background:var(--gray); border-radius:12px; }
 .safety-icon { font-size:20px; flex-shrink:0; width:32px; height:32px; display:flex; align-items:center; justify-content:center; background:#fff; border-radius:8px; }
 .safety-text { font-size:13px; color:var(--text); line-height:1.5; }
 .safety-text .time { color:var(--text3); font-size:12px; }
 
-/* School Card */
+/* School */
 .school-items { display:flex; flex-direction:column; gap:8px; }
 .school-item { display:flex; gap:10px; align-items:flex-start; }
 .school-item .icon { font-size:18px; flex-shrink:0; }
 .school-item .text { font-size:13px; line-height:1.5; color:var(--text); }
 .school-item .text strong { color:var(--dark); }
 .school-rating { display:inline-flex; align-items:center; gap:4px; background:#22c55e; color:#fff; padding:4px 10px; border-radius:8px; font-size:12px; font-weight:700; margin-top:10px; }
+.school-filter { font-size:12px; color:var(--red); background:var(--gray); padding:4px 10px; border-radius:8px; font-weight:600; }
 
-/* Real Estate Card */
+/* Real estate */
 .re-stats { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
 .re-stat { padding:12px; background:var(--gray); border-radius:12px; }
 .re-stat .val { font-size:20px; font-weight:800; color:var(--text); }
@@ -111,7 +122,7 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
 .re-chart { height:48px; display:flex; align-items:flex-end; gap:4px; padding:0 4px; }
 .re-bar { flex:1; background:var(--red); border-radius:4px 4px 0 0; opacity:.7; transition:height .5s ease; }
 
-/* Events Card */
+/* Events */
 .event-items { display:flex; flex-direction:column; gap:10px; }
 .event-item { display:flex; gap:12px; align-items:center; }
 .event-date { width:48px; height:48px; background:var(--red); color:#fff; border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; flex-shrink:0; }
@@ -120,7 +131,7 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
 .event-info .name { font-size:14px; font-weight:600; color:var(--text); }
 .event-info .loc { font-size:12px; color:var(--text3); margin-top:2px; }
 
-/* Business Card */
+/* Business */
 .biz-items { display:flex; flex-direction:column; gap:12px; }
 .biz-item { display:flex; gap:12px; }
 .biz-img { width:64px; height:64px; border-radius:12px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:28px; }
@@ -128,7 +139,28 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
 .biz-info .cat { font-size:11px; color:var(--red); font-weight:600; margin-top:1px; }
 .biz-info .desc { font-size:12px; color:var(--text2); margin-top:4px; line-height:1.4; }
 
-/* === CHAT === */
+/* Podcast */
+.podcast-card { display:flex; align-items:center; gap:14px; padding:14px; background:var(--gray); border-radius:14px; }
+.podcast-play { width:48px; height:48px; background:var(--red); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:22px; flex-shrink:0; cursor:pointer; }
+.podcast-info .name { font-size:14px; font-weight:600; }
+.podcast-info .dur { font-size:12px; color:var(--text3); }
+.podcast-wave { flex:1; height:32px; display:flex; align-items:center; gap:2px; }
+.podcast-wave span { width:3px; background:var(--red); border-radius:2px; opacity:.5; }
+
+/* Pet */
+.pet-items { display:flex; flex-direction:column; gap:10px; }
+.pet-item { display:flex; gap:12px; padding:10px 12px; background:var(--gray); border-radius:12px; }
+.pet-img { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:24px; background:#fff; flex-shrink:0; }
+.pet-info .name { font-size:14px; font-weight:600; color:var(--text); }
+.pet-info .desc { font-size:12px; color:var(--text2); margin-top:2px; line-height:1.4; }
+
+/* Gov */
+.gov-items { display:flex; flex-direction:column; gap:8px; }
+.gov-item { display:flex; gap:10px; align-items:flex-start; }
+.gov-item .icon { font-size:18px; flex-shrink:0; }
+.gov-item .text { font-size:13px; line-height:1.5; color:var(--text); }
+
+/* Chat */
 .chat-fab { position:fixed; bottom:100px; right:50%; transform:translateX(195px); width:56px; height:56px; background:var(--red); color:#fff; border:none; border-radius:50%; font-size:24px; cursor:pointer; box-shadow:0 4px 16px rgba(224,32,32,.4); z-index:100; transition:all .2s; display:none; }
 .chat-fab:hover { transform:translateX(195px) scale(1.1); }
 .chat-fab.show { display:block; }
@@ -157,20 +189,16 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
 .chat-input:focus { border-color:var(--red); }
 .chat-send { width:40px; height:40px; background:var(--red); color:#fff; border:none; border-radius:50%; cursor:pointer; font-size:18px; }
 
-/* Podcast Card */
-.podcast-card { display:flex; align-items:center; gap:14px; padding:14px; background:var(--gray); border-radius:14px; }
-.podcast-play { width:48px; height:48px; background:var(--red); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:22px; flex-shrink:0; cursor:pointer; }
-.podcast-info .name { font-size:14px; font-weight:600; }
-.podcast-info .dur { font-size:12px; color:var(--text3); }
-.podcast-wave { flex:1; height:32px; display:flex; align-items:center; gap:2px; }
-.podcast-wave span { width:3px; background:var(--red); border-radius:2px; opacity:.5; }
-
 /* Tab bar */
 .tab-bar { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:430px; max-width:100%; background:#fff; border-top:1px solid var(--gray2); display:none; padding:8px 0 28px; z-index:50; }
 .tab-bar.show { display:flex; justify-content:space-around; }
 .tab-item { text-align:center; font-size:10px; color:var(--text3); cursor:pointer; padding:4px 0; }
 .tab-item.active { color:var(--red); }
 .tab-item .icon { font-size:22px; display:block; margin-bottom:2px; }
+
+/* Toast */
+.toast { position:fixed; top:40px; left:50%; transform:translateX(-50%); background:var(--dark); color:#fff; padding:12px 24px; border-radius:12px; font-size:14px; z-index:300; display:none; animation:fadeIn .3s; }
+.toast.show { display:block; }
 </style>
 </head>
 <body>
@@ -189,6 +217,7 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
       <button class="city-btn" onclick="selectCity('San Francisco')"><span class="icon">🌉</span><span class="name">San Francisco</span></button>
       <button class="city-btn" onclick="selectCity('Menlo Park')"><span class="icon">🏡</span><span class="name">Menlo Park</span></button>
     </div>
+    <button class="splash-resume" id="resumeBtn" onclick="resumeSession()">📍 继续使用 <span id="resumeCity"></span></button>
     <div class="hint">选择你的城市，开启个性化本地助手</div>
   </div>
 
@@ -201,36 +230,34 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
     <div class="ob-body">
       <div class="ob-section">
         <h3>📌 选择关注话题</h3>
-        <div class="topic-grid">
-          <div class="topic-chip selected" onclick="toggleTopic(this)"><span class="check">✓ </span>🛡️ 安全报告</div>
-          <div class="topic-chip selected" onclick="toggleTopic(this)"><span class="check">✓ </span>🏫 学区动态</div>
-          <div class="topic-chip selected" onclick="toggleTopic(this)"><span class="check">✓ </span>🏠 房产</div>
-          <div class="topic-chip" onclick="toggleTopic(this)"><span class="check">✓ </span>📅 活动</div>
-          <div class="topic-chip" onclick="toggleTopic(this)"><span class="check">✓ </span>🏪 商家</div>
-          <div class="topic-chip selected" onclick="toggleTopic(this)"><span class="check">✓ </span>🌤️ 天气</div>
-          <div class="topic-chip" onclick="toggleTopic(this)"><span class="check">✓ </span>🎙️ 播客</div>
-          <div class="topic-chip" onclick="toggleTopic(this)"><span class="check">✓ </span>🏛️ 政府</div>
+        <div class="topic-grid" id="topicGrid">
+          <div class="topic-chip selected" data-topic="weather" onclick="toggleTopic(this)"><span class="check">✓ </span>🌤️ 天气</div>
+          <div class="topic-chip selected" data-topic="safety" onclick="toggleTopic(this)"><span class="check">✓ </span>🛡️ 安全</div>
+          <div class="topic-chip selected" data-topic="school" onclick="toggleTopic(this)"><span class="check">✓ </span>🏫 学区</div>
+          <div class="topic-chip" data-topic="realestate" onclick="toggleTopic(this)"><span class="check">✓ </span>🏠 房产</div>
+          <div class="topic-chip" data-topic="events" onclick="toggleTopic(this)"><span class="check">✓ </span>📅 活动</div>
+          <div class="topic-chip" data-topic="business" onclick="toggleTopic(this)"><span class="check">✓ </span>🏪 商家</div>
+          <div class="topic-chip" data-topic="podcast" onclick="toggleTopic(this)"><span class="check">✓ </span>🎙️ 播客</div>
+          <div class="topic-chip" data-topic="gov" onclick="toggleTopic(this)"><span class="check">✓ </span>🏛️ 政府</div>
+          <div class="topic-chip" data-topic="pet" onclick="toggleTopic(this)"><span class="check">✓ </span>🐾 宠物</div>
         </div>
       </div>
       <div class="ob-section">
-        <h3>👶 家有学龄儿童？</h3>
-        <div class="ob-row">
-          <div class="ob-toggle on" onclick="this.classList.toggle('on')"></div>
-          <span style="font-size:14px;color:var(--text)">自动追踪PAUSD学区动态</span>
-        </div>
+        <h3>🏫 关注的学校（可选）</h3>
+        <input class="ob-input" id="obSchool" placeholder="例如：Gunn High School">
       </div>
       <div class="ob-section">
-        <h3>🚗 通勤路线</h3>
-        <input class="ob-input" placeholder="例如：Palo Alto → Mountain View" value="Palo Alto → Mountain View">
+        <h3>🚗 通勤路线（可选）</h3>
+        <input class="ob-input" id="obCommute" placeholder="例如：Palo Alto → Mountain View">
       </div>
       <div class="ob-section">
         <h3>⏰ 推送时间</h3>
         <div class="ob-row">
-          <input class="ob-input" type="time" value="07:00" style="width:120px">
+          <input class="ob-input" type="time" id="obTime" value="07:00" style="width:120px">
           <span style="font-size:14px;color:var(--text2)">每日早间速览</span>
         </div>
       </div>
-      <button class="ob-start" onclick="showDashboard()">🚀 开始使用</button>
+      <button class="ob-start" onclick="saveAndStart()">🚀 开始使用</button>
     </div>
   </div>
 
@@ -242,13 +269,17 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
           <div class="dash-city" id="dashCity">📍 Palo Alto</div>
           <div class="dash-date" id="dashDate"></div>
         </div>
-        <div class="dash-weather">☀️ 75°F · AQI 59</div>
+        <div style="text-align:right">
+          <div class="dash-weather">☀️ 75°F · AQI 59</div>
+          <div class="dash-reset" onclick="resetPrefs()">⚙️ 重新设置</div>
+        </div>
       </div>
+      <div class="dash-prefs" id="dashPrefs"></div>
     </div>
-    <div class="dash-cards">
+    <div class="dash-cards" id="dashCards">
 
-      <!-- 今日速览 -->
-      <div class="card">
+      <!-- 今日速览 (always show) -->
+      <div class="card" data-card="weather">
         <div class="card-head">
           <div class="card-title">☀️ 今日速览</div>
           <span class="card-badge green">AI生成</span>
@@ -260,67 +291,61 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
           <div class="brief-item"><div class="val" style="color:#22c55e">0%</div><div class="label">降水</div></div>
         </div>
         <ul class="brief-news">
-          <li><span class="dot">•</span>🍵 沪上阿姨(Auntea Jenny)将在University Ave开湾区首店，今夏开业</li>
+          <li><span class="dot">•</span>🍵 沪上阿姨将在University Ave开湾区首店，今夏开业</li>
           <li><span class="dot">•</span>🏫 PAUSD启动新总监搜索，向5-7家公司征集提案</li>
           <li><span class="dot">•</span>💰 市政府动用$1000万+储备金填预算缺口</li>
         </ul>
+        <div class="commute-box" id="commuteBox" style="display:none">
+          <div class="icon">🚗</div>
+          <div class="info"><strong id="commuteRoute">PA → MV</strong><br>El Camino 22min · Hwy 101 18min(轻微拥堵) · Central Expy 20min</div>
+        </div>
       </div>
 
       <!-- 播客 -->
-      <div class="card">
+      <div class="card" data-card="podcast">
         <div class="card-head">
           <div class="card-title">🎙️ 今日播客</div>
           <span class="card-badge">3分钟</span>
         </div>
         <div class="podcast-card">
           <div class="podcast-play">▶</div>
-          <div>
-            <div class="podcast-info"><div class="name">Palo Alto 早间新闻</div><div class="dur">AI语音 · 2月27日</div></div>
-          </div>
+          <div><div class="podcast-info"><div class="name" id="podName">Palo Alto 早间新闻</div><div class="dur">AI语音 · 2月27日</div></div></div>
           <div class="podcast-wave" id="podWave"></div>
         </div>
       </div>
 
-      <!-- 安全报告 -->
-      <div class="card">
+      <!-- 安全 -->
+      <div class="card" data-card="safety">
         <div class="card-head">
           <div class="card-title">🛡️ 安全报告</div>
           <span class="card-badge orange">本周 3起</span>
         </div>
         <div class="safety-items">
-          <div class="safety-item">
-            <div class="safety-icon">⚠️</div>
-            <div class="safety-text">Downtown University Ave 性骚扰案，嫌犯在逃，警方已获监控<br><span class="time">2/19 · 200 University Ave</span></div>
-          </div>
-          <div class="safety-item">
-            <div class="safety-icon">🔓</div>
-            <div class="safety-text">60岁男子在公交站台抢劫高中生，已被电击枪制服逮捕<br><span class="time">本周 · 95 University Ave</span></div>
-          </div>
-          <div class="safety-item">
-            <div class="safety-icon">🚨</div>
-            <div class="safety-text">停车场灭火器攻击事件，一名男子用灭火器喷向他人<br><span class="time">2/26 · 市中心停车场</span></div>
-          </div>
+          <div class="safety-item"><div class="safety-icon">⚠️</div><div class="safety-text">Downtown University Ave 性骚扰案，嫌犯在逃<br><span class="time">2/19 · 200 University Ave</span></div></div>
+          <div class="safety-item"><div class="safety-icon">🔓</div><div class="safety-text">60岁男子公交站台抢劫高中生，已被逮捕<br><span class="time">本周 · 95 University Ave</span></div></div>
+          <div class="safety-item"><div class="safety-icon">🚨</div><div class="safety-text">停车场灭火器攻击事件<br><span class="time">2/26 · 市中心停车场</span></div></div>
         </div>
-        <div style="margin-top:12px"><span class="card-more" onclick="alert('查看完整安全报告')">查看完整报告 →</span></div>
+        <div style="margin-top:12px"><span class="card-more">查看完整报告 →</span></div>
       </div>
 
-      <!-- 学区动态 -->
-      <div class="card">
+      <!-- 学区 -->
+      <div class="card" data-card="school">
         <div class="card-head">
-          <div class="card-title">🏫 PAUSD 学区动态</div>
-          <span class="card-badge">家长必看</span>
+          <div class="card-title">🏫 <span id="schoolTitle">PAUSD 学区动态</span></div>
+          <span class="card-badge" id="schoolBadge">家长必看</span>
         </div>
+        <div id="schoolFilterTag" style="margin-bottom:10px;display:none"><span class="school-filter">🎯 只追踪: <span id="schoolFilterName"></span></span></div>
         <div class="school-items">
-          <div class="school-item"><div class="icon">📢</div><div class="text"><strong>新总监搜索启动</strong> — Board向5-7家搜索公司征集提案，家长可参与公开意见征集</div></div>
-          <div class="school-item"><div class="icon">✅</div><div class="text"><strong>裁员计划被推翻</strong> — 5-0全票保留所有阅读/数学专家岗位</div></div>
-          <div class="school-item"><div class="icon">💔</div><div class="text"><strong>心理健康支持加强</strong> — Uwill提供家长/staff免费远程心理咨询(3次)</div></div>
-          <div class="school-item"><div class="icon">💰</div><div class="text"><strong>$325万和解</strong> — 前Fletcher中学教师性侵案和解</div></div>
+          <div class="school-item"><div class="icon">📢</div><div class="text"><strong>新总监搜索启动</strong> — Board向5-7家搜索公司征集提案</div></div>
+          <div class="school-item"><div class="icon">✅</div><div class="text"><strong>裁员计划被推翻</strong> — 5-0全票保留阅读/数学专家</div></div>
+          <div class="school-item"><div class="icon">💔</div><div class="text"><strong>心理健康支持</strong> — Uwill提供3次免费远程咨询</div></div>
+          <div class="school-item"><div class="icon">💰</div><div class="text"><strong>$325万和解</strong> — 前Fletcher中学教师性侵案</div></div>
         </div>
-        <div class="school-rating">⭐ GreatSchools 8-10/10 · 20所学校 · 10,209名学生</div>
+        <div class="school-rating">⭐ GreatSchools 8-10/10 · 20所学校</div>
       </div>
 
-      <!-- 房产周报 -->
-      <div class="card">
+      <!-- 房产 -->
+      <div class="card" data-card="realestate">
         <div class="card-head">
           <div class="card-title">🏠 房产周报</div>
           <span class="card-more">详情 →</span>
@@ -335,60 +360,58 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
         <div class="re-chart" id="reChart"></div>
       </div>
 
-      <!-- 本周活动 -->
-      <div class="card">
+      <!-- 活动 -->
+      <div class="card" data-card="events">
         <div class="card-head">
           <div class="card-title">📅 本周活动</div>
           <span class="card-more">全部 →</span>
         </div>
         <div class="event-items">
-          <div class="event-item">
-            <div class="event-date"><div class="month">2月</div><div class="day">28</div></div>
-            <div class="event-info"><div class="name">🌱 Gamble Garden 园艺工作坊</div><div class="loc">10AM · 1431 Waverley St</div></div>
-          </div>
-          <div class="event-item">
-            <div class="event-date"><div class="month">3月</div><div class="day">1</div></div>
-            <div class="event-info"><div class="name">🏮 元宵节家庭嘉年华</div><div class="loc">11AM · Mitchell Park Community Center</div></div>
-          </div>
-          <div class="event-item">
-            <div class="event-date"><div class="month">3月</div><div class="day">1</div></div>
-            <div class="event-info"><div class="name">🏀 Stanford女篮 vs Clemson</div><div class="loc">TBD · Maples Pavilion</div></div>
-          </div>
+          <div class="event-item"><div class="event-date"><div class="month">2月</div><div class="day">28</div></div><div class="event-info"><div class="name">🌱 Gamble Garden 园艺工作坊</div><div class="loc">10AM · 1431 Waverley St</div></div></div>
+          <div class="event-item"><div class="event-date"><div class="month">3月</div><div class="day">1</div></div><div class="event-info"><div class="name">🏮 元宵节家庭嘉年华</div><div class="loc">11AM · Mitchell Park</div></div></div>
+          <div class="event-item"><div class="event-date"><div class="month">3月</div><div class="day">1</div></div><div class="event-info"><div class="name">🏀 Stanford女篮 vs Clemson</div><div class="loc">TBD · Maples Pavilion</div></div></div>
         </div>
       </div>
 
-      <!-- 商家聚焦 -->
-      <div class="card">
+      <!-- 商家 -->
+      <div class="card" data-card="business">
         <div class="card-head">
           <div class="card-title">🏪 商家聚焦</div>
           <span class="card-badge green">新开业</span>
         </div>
         <div class="biz-items">
-          <div class="biz-item">
-            <div class="biz-img" style="background:#fff3f3">🍣</div>
-            <div class="biz-info">
-              <div class="name">Yutori</div>
-              <div class="cat">日本餐厅 · 咖啡 · 市集 · 2月底开业</div>
-              <div class="desc">前Google首席寿司厨师主理，5000sqft日本生活方式空间</div>
-            </div>
-          </div>
-          <div class="biz-item">
-            <div class="biz-img" style="background:#f3fff3">🥙</div>
-            <div class="biz-info">
-              <div class="name">All-You-Can-Eat Kebabs & Mezes</div>
-              <div class="cat">地中海 · 无限量 · 已开业</div>
-              <div class="desc">巴西烤肉式服务，服务员不断端烤串和小菜到桌前</div>
-            </div>
-          </div>
-          <div class="biz-item">
-            <div class="biz-img" style="background:#f3f3ff">🍵</div>
-            <div class="biz-info">
-              <div class="name">沪上阿姨 (Auntea Jenny)</div>
-              <div class="cat">鲜果茶 · University Ave · 今夏开业</div>
-              <div class="desc">全球10000+门店中国茶饮品牌，湾区首店</div>
-            </div>
-          </div>
+          <div class="biz-item"><div class="biz-img" style="background:#fff3f3">🍣</div><div class="biz-info"><div class="name">Yutori</div><div class="cat">日本餐厅 · 2月底开业</div><div class="desc">前Google首席寿司厨师，5000sqft日本生活方式空间</div></div></div>
+          <div class="biz-item"><div class="biz-img" style="background:#f3fff3">🥙</div><div class="biz-info"><div class="name">All-You-Can-Eat Kebabs</div><div class="cat">地中海 · 已开业</div><div class="desc">巴西烤肉式服务，无限量烤串和小菜</div></div></div>
+          <div class="biz-item"><div class="biz-img" style="background:#f3f3ff">🍵</div><div class="biz-info"><div class="name">沪上阿姨 (Auntea Jenny)</div><div class="cat">鲜果茶 · 今夏开业</div><div class="desc">全球10000+门店，湾区首店在University Ave</div></div></div>
         </div>
+      </div>
+
+      <!-- 政府 -->
+      <div class="card" data-card="gov">
+        <div class="card-head">
+          <div class="card-title">🏛️ 政府动态</div>
+          <span class="card-more">详情 →</span>
+        </div>
+        <div class="gov-items">
+          <div class="gov-item"><div class="icon">💰</div><div class="text"><strong>预算缺口$1000万+</strong> — 动用储备金，汽车销售税+州法规变化导致</div></div>
+          <div class="gov-item"><div class="icon">🏗️</div><div class="text"><strong>Barron Park 321户公寓被否</strong> — 交通安全问题</div></div>
+          <div class="gov-item"><div class="icon">🚇</div><div class="text"><strong>Churchill铁路道口关闭讨论</strong> — 加速推进中</div></div>
+          <div class="gov-item"><div class="icon">🏪</div><div class="text"><strong>El Camino零售保护区</strong> — 防止商业被住宅取代</div></div>
+        </div>
+      </div>
+
+      <!-- 宠物 -->
+      <div class="card" data-card="pet">
+        <div class="card-head">
+          <div class="card-title">🐾 宠物信息</div>
+          <span class="card-badge green">领养</span>
+        </div>
+        <div class="pet-items">
+          <div class="pet-item"><div class="pet-img">🐕</div><div class="pet-info"><div class="name">American Eskimo 迷你型</div><div class="desc">Palo Alto · 免费领养 · 寻找新家</div></div></div>
+          <div class="pet-item"><div class="pet-img">🐈</div><div class="pet-info"><div class="name">走失猫 "Simba"</div><div class="desc">金色短毛 · 94303区域 · 1/24走失</div></div></div>
+          <div class="pet-item"><div class="pet-img">🐶</div><div class="pet-info"><div class="name">走失 Swiss Shepherd幼犬</div><div class="desc">白色 · East Palo Alto · 2/9走失</div></div></div>
+        </div>
+        <div style="margin-top:10px;font-size:12px;color:var(--text3)">📞 Pets In Need (650) 496-5971</div>
       </div>
 
     </div>
@@ -406,16 +429,16 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
       <button class="chat-close" onclick="closeChat()">✕</button>
     </div>
     <div class="chat-messages" id="chatMsgs">
-      <div class="chat-msg bot">你好！我是你的Palo Alto本地AI助手。告诉我你想关注什么，我来帮你定制 ✨</div>
+      <div class="chat-msg bot">你好！我是你的本地AI助手。告诉我你想关注什么，我来帮你定制 ✨<br><br>你的设置会自动保存，下次打开继续生效。</div>
     </div>
     <div class="chat-typing" id="chatTyping"><span></span><span></span><span></span></div>
     <div class="chat-chips" id="chatChips">
-      <div class="chat-chip" onclick="sendChip(this)">只关注Gunn High School</div>
-      <div class="chat-chip" onclick="sendChip(this)">每天早上7点推送</div>
-      <div class="chat-chip" onclick="sendChip(this)">加上通勤路况 PA→MV</div>
-      <div class="chat-chip" onclick="sendChip(this)">关注宠物领养信息</div>
-      <div class="chat-chip" onclick="sendChip(this)">只看中文内容</div>
-      <div class="chat-chip" onclick="sendChip(this)">追踪Zaytinya开业</div>
+      <div class="chat-chip" onclick="sendChip(this)" data-action="school:Gunn High School">只关注Gunn High School</div>
+      <div class="chat-chip" onclick="sendChip(this)" data-action="time:07:00">每天早上7点推送</div>
+      <div class="chat-chip" onclick="sendChip(this)" data-action="commute:PA→MV">加上通勤路况 PA→MV</div>
+      <div class="chat-chip" onclick="sendChip(this)" data-action="topic:pet">关注宠物领养信息</div>
+      <div class="chat-chip" onclick="sendChip(this)" data-action="topic:realestate">开启房产周报</div>
+      <div class="chat-chip" onclick="sendChip(this)" data-action="topic:gov">开启政府动态</div>
     </div>
     <div class="chat-input-row">
       <input class="chat-input" id="chatInput" placeholder="输入你的需求..." onkeydown="if(event.key==='Enter')sendMsg()">
@@ -429,81 +452,220 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
   <div class="tab-item active"><span class="icon">🏠</span>首页</div>
   <div class="tab-item"><span class="icon">🔍</span>发现</div>
   <div class="tab-item"><span class="icon">📰</span>新闻</div>
-  <div class="tab-item"><span class="icon">🤖</span>AI助手</div>
-  <div class="tab-item"><span class="icon">👤</span>我的</div>
+  <div class="tab-item" onclick="openChat()"><span class="icon">🤖</span>AI助手</div>
+  <div class="tab-item" onclick="resetPrefs()"><span class="icon">👤</span>我的</div>
 </div>
 
-<script>
-let currentCity = '';
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
-function selectCity(city) {
-  currentCity = city;
-  document.getElementById('obCity').textContent = city;
-  showScreen('onboard');
+<script>
+// === STATE ===
+const STORAGE_KEY = 'nb_agent_prefs';
+let prefs = loadPrefs();
+
+function defaultPrefs() {
+  return { city:'', topics:['weather','safety','school'], school:'', commute:'', time:'07:00', chatHistory:[] };
 }
 
-function showScreen(id) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+function loadPrefs() {
+  try { const s = localStorage.getItem(STORAGE_KEY); return s ? JSON.parse(s) : defaultPrefs(); }
+  catch(e) { return defaultPrefs(); }
+}
+
+function savePrefs() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(prefs));
+}
+
+// === INIT ===
+window.onload = function() {
+  if (prefs.city) {
+    document.getElementById('resumeBtn').style.display = 'block';
+    document.getElementById('resumeCity').textContent = prefs.city;
+  }
+};
+
+function resumeSession() {
+  renderDashboard();
+}
+
+// === SPLASH ===
+function selectCity(city) {
+  prefs.city = city;
+  document.getElementById('obCity').textContent = city;
+  // Restore topic selections in onboarding
+  document.querySelectorAll('#topicGrid .topic-chip').forEach(c => {
+    const t = c.dataset.topic;
+    if (prefs.topics.includes(t)) c.classList.add('selected');
+    else c.classList.remove('selected');
+  });
+  if (prefs.school) document.getElementById('obSchool').value = prefs.school;
+  if (prefs.commute) document.getElementById('obCommute').value = prefs.commute;
+  if (prefs.time) document.getElementById('obTime').value = prefs.time;
+  showScreen('onboard');
 }
 
 function toggleTopic(el) { el.classList.toggle('selected'); }
 
-function showDashboard() {
-  document.getElementById('dashCity').textContent = '📍 ' + currentCity;
+function saveAndStart() {
+  // Collect topics
+  prefs.topics = [];
+  document.querySelectorAll('#topicGrid .topic-chip.selected').forEach(c => {
+    prefs.topics.push(c.dataset.topic);
+  });
+  prefs.school = document.getElementById('obSchool').value.trim();
+  prefs.commute = document.getElementById('obCommute').value.trim();
+  prefs.time = document.getElementById('obTime').value;
+  savePrefs();
+  renderDashboard();
+}
+
+// === DASHBOARD ===
+function renderDashboard() {
+  document.getElementById('dashCity').textContent = '📍 ' + prefs.city;
   const d = new Date();
   const days = ['周日','周一','周二','周三','周四','周五','周六'];
   document.getElementById('dashDate').textContent = `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 ${days[d.getDay()]}`;
+
+  // Pref tags
+  const tagMap = {weather:'🌤️天气',safety:'🛡️安全',school:'🏫学区',realestate:'🏠房产',events:'📅活动',business:'🏪商家',podcast:'🎙️播客',gov:'🏛️政府',pet:'🐾宠物'};
+  const prefsDiv = document.getElementById('dashPrefs');
+  prefsDiv.innerHTML = prefs.topics.map(t => `<span class="dash-pref-tag">${tagMap[t]||t}</span>`).join('');
+  if (prefs.school) prefsDiv.innerHTML += `<span class="dash-pref-tag">🎯${prefs.school}</span>`;
+  if (prefs.commute) prefsDiv.innerHTML += `<span class="dash-pref-tag">🚗${prefs.commute}</span>`;
+
+  // Show/hide cards based on topics
+  document.querySelectorAll('#dashCards .card').forEach(card => {
+    const ct = card.dataset.card;
+    if (!ct) return;
+    // weather card always shows if any topic selected
+    if (ct === 'weather') { card.classList.remove('hidden'); return; }
+    if (prefs.topics.includes(ct)) card.classList.remove('hidden');
+    else card.classList.add('hidden');
+  });
+
+  // Commute
+  if (prefs.commute) {
+    document.getElementById('commuteBox').style.display = 'flex';
+    document.getElementById('commuteRoute').textContent = prefs.commute;
+  } else {
+    document.getElementById('commuteBox').style.display = 'none';
+  }
+
+  // School filter
+  if (prefs.school) {
+    document.getElementById('schoolFilterTag').style.display = 'block';
+    document.getElementById('schoolFilterName').textContent = prefs.school;
+    document.getElementById('schoolBadge').textContent = prefs.school;
+  } else {
+    document.getElementById('schoolFilterTag').style.display = 'none';
+    document.getElementById('schoolBadge').textContent = '家长必看';
+  }
+
+  // Podcast name
+  document.getElementById('podName').textContent = prefs.city + ' 早间新闻';
+
   showScreen('dashboard');
   document.getElementById('chatFab').classList.add('show');
   document.getElementById('tabBar').classList.add('show');
   initCharts();
+
+  // Restore chat history
+  if (prefs.chatHistory && prefs.chatHistory.length) {
+    const msgs = document.getElementById('chatMsgs');
+    prefs.chatHistory.forEach(m => {
+      const div = document.createElement('div');
+      div.className = 'chat-msg ' + m.type;
+      div.innerHTML = m.text;
+      msgs.appendChild(div);
+    });
+  }
 }
 
 function initCharts() {
-  // Real estate chart
-  const heights = [65, 70, 68, 75, 78, 82];
+  const heights = [65,70,68,75,78,82];
   const chart = document.getElementById('reChart');
   chart.innerHTML = '';
-  heights.forEach((h, i) => {
+  heights.forEach((h,i) => {
     const bar = document.createElement('div');
     bar.className = 'bar re-bar';
     bar.style.height = '0';
     chart.appendChild(bar);
-    setTimeout(() => bar.style.height = h + '%', 100 + i * 80);
+    setTimeout(() => bar.style.height = h+'%', 100+i*80);
   });
-  // Podcast wave
   const wave = document.getElementById('podWave');
   wave.innerHTML = '';
-  for(let i = 0; i < 24; i++) {
+  for(let i=0;i<24;i++) {
     const s = document.createElement('span');
-    s.style.height = (8 + Math.random() * 22) + 'px';
+    s.style.height = (8+Math.random()*22)+'px';
     wave.appendChild(s);
   }
 }
 
-// Chat
+function resetPrefs() {
+  if(confirm('重新设置偏好？你的聊天记录将保留。')) {
+    const hist = prefs.chatHistory;
+    prefs = defaultPrefs();
+    prefs.chatHistory = hist;
+    savePrefs();
+    document.getElementById('chatFab').classList.remove('show');
+    document.getElementById('tabBar').classList.remove('show');
+    document.getElementById('resumeBtn').style.display = 'none';
+    showScreen('splash');
+  }
+}
+
+// === CHAT ===
 const responses = {
-  '只关注Gunn High School': '✅ 已设置！学区动态将只追踪 **Gunn High School** 的消息，包括：\n\n• 校董会涉及Gunn的决议\n• Gunn的考试成绩和排名变化\n• 停课/延迟通知\n• Gunn相关活动\n\n其他PAUSD学校的消息将不再推送。',
-  '每天早上7点推送': '⏰ 已设置！每天早上7:00 AM会推送你的个性化速览，包含：\n\n☀️ 天气+AQI\n📰 Top 3本地新闻\n🛡️ 过夜安全事件\n🚗 通勤路况\n\n推送将在7:00准时送达。',
-  '加上通勤路况 PA→MV': '🚗 已添加！每日速览将包含 Palo Alto → Mountain View 的实时通勤信息：\n\n• El Camino Real 路况\n• Hwy 101 拥堵预警\n• Central Expressway 替代路线\n• 预计通勤时间\n\n如遇重大事故会额外推送。',
-  '关注宠物领养信息': '🐕 已开启宠物频道！将为你追踪：\n\n• Pets In Need (PA本地收容所) 新到领养宠物\n• 社区走失宠物公告\n• 免费领养活动\n\n目前PA有一只American Eskimo迷你型正在寻找新家！',
-  '只看中文内容': '🇨🇳 已切换为中文优先模式！\n\n• AI摘要全部使用中文\n• 优先展示中文社区相关内容\n• 英文新闻自动翻译摘要\n\n注意：部分原始链接仍为英文。',
-  '追踪Zaytinya开业': '🍽️ 已设置追踪！José Andrés的Zaytinya预计在Stanford Shopping Center开业，我会持续关注：\n\n• 确切开业日期公布\n• 菜单和预约信息\n• 开业优惠\n• 食评\n\n有新消息会第一时间通知你！'
+  'school:Gunn High School': { text:'✅ 已设置！学区动态将只追踪 <strong>Gunn High School</strong>：\n\n• 校董会涉及Gunn的决议\n• Gunn考试成绩和排名\n• 停课/延迟通知\n• Gunn相关活动\n\n设置已保存，下次打开继续生效。', action: ()=>{ prefs.school='Gunn High School'; savePrefs(); applySchoolFilter(); }},
+  'time:07:00': { text:'⏰ 已设置！每天早上 <strong>7:00 AM</strong> 推送个性化速览：\n\n☀️ 天气+AQI\n📰 Top 3本地新闻\n🛡️ 过夜安全事件\n🚗 通勤路况\n\n设置已保存。', action: ()=>{ prefs.time='07:00'; savePrefs(); }},
+  'commute:PA→MV': { text:'🚗 已添加通勤路况！每日速览将包含 <strong>Palo Alto → Mountain View</strong>：\n\n• El Camino / Hwy 101 / Central Expy\n• 预计通勤时间\n• 重大事故额外推送\n\n设置已保存。', action: ()=>{ prefs.commute='PA→MV'; savePrefs(); document.getElementById('commuteBox').style.display='flex'; document.getElementById('commuteRoute').textContent='PA→MV'; }},
+  'topic:pet': { text:'🐾 已开启宠物频道！将追踪：\n\n• Pets In Need 新到领养宠物\n• 社区走失宠物公告\n• 免费领养活动\n\n目前PA有一只American Eskimo迷你型正在寻找新家！\n\n设置已保存。', action: ()=>{ addTopic('pet'); }},
+  'topic:realestate': { text:'🏠 已开启房产周报！每周推送：\n\n• 房价中位数和趋势\n• 新上市房源\n• 成交亮点\n• 利率变化\n\n设置已保存。', action: ()=>{ addTopic('realestate'); }},
+  'topic:gov': { text:'🏛️ 已开启政府动态！将追踪：\n\n• 市议会投票决议\n• Zoning变更\n• 预算和税务\n• 公共听证会\n\n设置已保存。', action: ()=>{ addTopic('gov'); }},
 };
+
+function addTopic(t) {
+  if (!prefs.topics.includes(t)) prefs.topics.push(t);
+  savePrefs();
+  // Show card
+  document.querySelectorAll(`#dashCards .card[data-card="${t}"]`).forEach(c => c.classList.remove('hidden'));
+  // Update tags
+  const tagMap = {weather:'🌤️天气',safety:'🛡️安全',school:'🏫学区',realestate:'🏠房产',events:'📅活动',business:'🏪商家',podcast:'🎙️播客',gov:'🏛️政府',pet:'🐾宠物'};
+  const tag = document.createElement('span');
+  tag.className = 'dash-pref-tag';
+  tag.textContent = tagMap[t];
+  document.getElementById('dashPrefs').appendChild(tag);
+  showToast('✅ 已添加到你的首页');
+}
+
+function applySchoolFilter() {
+  document.getElementById('schoolFilterTag').style.display = 'block';
+  document.getElementById('schoolFilterName').textContent = prefs.school;
+  document.getElementById('schoolBadge').textContent = prefs.school;
+  showToast('🎯 学区追踪已更新');
+}
 
 function openChat() { document.getElementById('chatOverlay').classList.add('show'); }
 function closeChat() { document.getElementById('chatOverlay').classList.remove('show'); }
 
 function sendChip(el) {
   const text = el.textContent;
+  const action = el.dataset.action;
   el.style.display = 'none';
   addMsg(text, 'user');
   showTyping();
   setTimeout(() => {
     hideTyping();
-    addMsg(responses[text] || '✅ 已记录你的偏好，我会相应调整推送内容！', 'bot');
-  }, 1200 + Math.random() * 800);
+    const r = responses[action];
+    const respText = r ? r.text.replace(/\n/g,'<br>') : '✅ 已记录，下次推送中生效！';
+    addMsg(respText, 'bot');
+    if (r && r.action) r.action();
+    // Save chat history
+    prefs.chatHistory.push({type:'user',text});
+    prefs.chatHistory.push({type:'bot',text:respText});
+    savePrefs();
+  }, 1200+Math.random()*800);
 }
 
 function sendMsg() {
@@ -513,9 +675,37 @@ function sendMsg() {
   input.value = '';
   addMsg(text, 'user');
   showTyping();
+
+  // Simple keyword matching for dynamic responses
+  let resp = '✅ 明白！我已更新你的偏好设置，下次推送中生效。';
+  let action = null;
+
+  if (text.match(/gunn|甘恩/i)) {
+    resp = responses['school:Gunn High School'].text.replace(/\n/g,'<br>');
+    action = responses['school:Gunn High School'].action;
+  } else if (text.match(/通勤|commute|路况/i)) {
+    resp = responses['commute:PA→MV'].text.replace(/\n/g,'<br>');
+    action = responses['commute:PA→MV'].action;
+  } else if (text.match(/宠物|pet|狗|猫|领养/i)) {
+    resp = responses['topic:pet'].text.replace(/\n/g,'<br>');
+    action = responses['topic:pet'].action;
+  } else if (text.match(/房产|房价|house|real estate/i)) {
+    resp = responses['topic:realestate'].text.replace(/\n/g,'<br>');
+    action = responses['topic:realestate'].action;
+  } else if (text.match(/政府|gov|市议会|zoning/i)) {
+    resp = responses['topic:gov'].text.replace(/\n/g,'<br>');
+    action = responses['topic:gov'].action;
+  } else if (text.match(/删除|移除|不要|取消|remove|hide/i)) {
+    resp = '✅ 已从你的首页移除。你随时可以在这里重新开启。';
+  }
+
   setTimeout(() => {
     hideTyping();
-    addMsg('✅ 明白！我已经更新了你的偏好设置。这个变更会在下次推送中生效。还有什么需要调整的吗？', 'bot');
+    addMsg(resp, 'bot');
+    if (action) action();
+    prefs.chatHistory.push({type:'user',text});
+    prefs.chatHistory.push({type:'bot',text:resp});
+    savePrefs();
   }, 1500);
 }
 
@@ -523,18 +713,27 @@ function addMsg(text, type) {
   const msgs = document.getElementById('chatMsgs');
   const div = document.createElement('div');
   div.className = 'chat-msg ' + type;
-  div.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  div.innerHTML = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
   msgs.appendChild(div);
   msgs.scrollTop = msgs.scrollHeight;
 }
 
-function showTyping() { document.getElementById('chatTyping').style.display = 'block'; }
-function hideTyping() { document.getElementById('chatTyping').style.display = 'none'; }
+function showTyping() { document.getElementById('chatTyping').style.display='block'; document.getElementById('chatMsgs').scrollTop = document.getElementById('chatMsgs').scrollHeight; }
+function hideTyping() { document.getElementById('chatTyping').style.display='none'; }
 
-// Close chat on overlay click
-document.getElementById('chatOverlay').addEventListener('click', function(e) {
-  if (e.target === this) closeChat();
-});
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2000);
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+document.getElementById('chatOverlay').addEventListener('click', function(e) { if(e.target===this) closeChat(); });
 </script>
 
 </body>
