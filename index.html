@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>NewsBreak 本地AI助手</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+:root {
+  --red: #E02020; --dark: #1a1a1a; --gray: #f5f5f7; --gray2: #e8e8e8;
+  --text: #333; --text2: #666; --text3: #999; --white: #fff;
+  --shadow: 0 2px 12px rgba(0,0,0,0.08); --radius: 16px;
+}
+body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Hiragino Sans GB",sans-serif; background:#f0f0f0; display:flex; justify-content:center; min-height:100vh; padding:20px 0; }
+.phone { width:430px; max-width:100%; min-height:90vh; background:var(--gray); border-radius:32px; overflow:hidden; position:relative; box-shadow:0 8px 40px rgba(0,0,0,0.15); }
+
+/* Screens */
+.screen { display:none; min-height:90vh; animation:fadeIn .3s ease; }
+.screen.active { display:block; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+
+/* === SPLASH === */
+#splash { background:linear-gradient(135deg,#E02020 0%,#c41818 100%); color:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 24px; text-align:center; }
+#splash.active { display:flex; }
+#splash h1 { font-size:32px; font-weight:800; margin-bottom:8px; letter-spacing:-0.5px; }
+#splash .subtitle { font-size:16px; opacity:.85; margin-bottom:48px; }
+#splash .logo { font-size:56px; margin-bottom:24px; }
+.city-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; width:100%; max-width:360px; margin-bottom:24px; }
+.city-btn { background:rgba(255,255,255,.18); backdrop-filter:blur(8px); border:1.5px solid rgba(255,255,255,.3); color:#fff; padding:16px 8px; border-radius:14px; font-size:14px; font-weight:600; cursor:pointer; transition:all .2s; }
+.city-btn:hover { background:rgba(255,255,255,.3); transform:scale(1.04); }
+.city-btn .icon { font-size:28px; display:block; margin-bottom:6px; }
+.city-btn .name { display:block; }
+#splash .hint { font-size:13px; opacity:.6; margin-top:8px; }
+
+/* === ONBOARDING === */
+#onboard { background:#fff; padding:0; }
+.ob-header { background:var(--red); color:#fff; padding:48px 24px 28px; }
+.ob-header h2 { font-size:24px; font-weight:700; }
+.ob-header p { font-size:14px; opacity:.8; margin-top:6px; }
+.ob-body { padding:24px; }
+.ob-section { margin-bottom:28px; }
+.ob-section h3 { font-size:15px; font-weight:700; color:var(--text); margin-bottom:12px; }
+.topic-grid { display:flex; flex-wrap:wrap; gap:10px; }
+.topic-chip { display:flex; align-items:center; gap:6px; padding:10px 16px; border-radius:24px; border:1.5px solid var(--gray2); font-size:14px; cursor:pointer; transition:all .2s; user-select:none; }
+.topic-chip.selected { background:var(--red); color:#fff; border-color:var(--red); }
+.topic-chip .check { display:none; }
+.topic-chip.selected .check { display:inline; }
+.ob-input { width:100%; padding:12px 16px; border:1.5px solid var(--gray2); border-radius:12px; font-size:14px; outline:none; transition:border .2s; }
+.ob-input:focus { border-color:var(--red); }
+.ob-input::placeholder { color:var(--text3); }
+.ob-start { width:100%; padding:16px; background:var(--red); color:#fff; border:none; border-radius:14px; font-size:17px; font-weight:700; cursor:pointer; transition:all .2s; }
+.ob-start:hover { background:#c41818; transform:scale(1.02); }
+.ob-row { display:flex; align-items:center; gap:12px; margin-bottom:12px; }
+.ob-toggle { width:48px; height:28px; background:var(--gray2); border-radius:14px; position:relative; cursor:pointer; transition:background .2s; flex-shrink:0; }
+.ob-toggle.on { background:var(--red); }
+.ob-toggle::after { content:''; position:absolute; top:3px; left:3px; width:22px; height:22px; background:#fff; border-radius:50%; transition:left .2s; box-shadow:0 1px 3px rgba(0,0,0,.2); }
+.ob-toggle.on::after { left:23px; }
+
+/* === DASHBOARD === */
+#dashboard { background:var(--gray); padding-bottom:80px; }
+.dash-top { background:var(--red); color:#fff; padding:52px 20px 20px; }
+.dash-top-row { display:flex; justify-content:space-between; align-items:center; }
+.dash-city { font-size:22px; font-weight:700; }
+.dash-weather { font-size:14px; opacity:.9; display:flex; align-items:center; gap:6px; }
+.dash-date { font-size:13px; opacity:.7; margin-top:4px; }
+.dash-cards { padding:16px; display:flex; flex-direction:column; gap:14px; margin-top:-8px; }
+
+/* Cards */
+.card { background:#fff; border-radius:var(--radius); padding:20px; box-shadow:var(--shadow); transition:transform .2s; }
+.card:active { transform:scale(0.98); }
+.card-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
+.card-title { font-size:16px; font-weight:700; color:var(--text); display:flex; align-items:center; gap:8px; }
+.card-badge { font-size:11px; background:var(--red); color:#fff; padding:3px 10px; border-radius:20px; font-weight:600; }
+.card-badge.green { background:#22c55e; }
+.card-badge.orange { background:#f59e0b; }
+.card-more { font-size:13px; color:var(--red); font-weight:600; cursor:pointer; }
+
+/* Life Brief Card */
+.brief-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr; gap:8px; margin-bottom:16px; }
+.brief-item { text-align:center; padding:10px 4px; background:var(--gray); border-radius:12px; }
+.brief-item .val { font-size:18px; font-weight:700; color:var(--text); }
+.brief-item .label { font-size:11px; color:var(--text3); margin-top:2px; }
+.brief-news { list-style:none; }
+.brief-news li { padding:10px 0; border-bottom:1px solid var(--gray); font-size:14px; color:var(--text); line-height:1.5; display:flex; gap:8px; }
+.brief-news li:last-child { border:none; }
+.brief-news .dot { color:var(--red); font-weight:700; flex-shrink:0; }
+
+/* Safety Card */
+.safety-items { display:flex; flex-direction:column; gap:10px; }
+.safety-item { display:flex; gap:10px; align-items:flex-start; padding:10px 12px; background:var(--gray); border-radius:12px; }
+.safety-icon { font-size:20px; flex-shrink:0; width:32px; height:32px; display:flex; align-items:center; justify-content:center; background:#fff; border-radius:8px; }
+.safety-text { font-size:13px; color:var(--text); line-height:1.5; }
+.safety-text .time { color:var(--text3); font-size:12px; }
+
+/* School Card */
+.school-items { display:flex; flex-direction:column; gap:8px; }
+.school-item { display:flex; gap:10px; align-items:flex-start; }
+.school-item .icon { font-size:18px; flex-shrink:0; }
+.school-item .text { font-size:13px; line-height:1.5; color:var(--text); }
+.school-item .text strong { color:var(--dark); }
+.school-rating { display:inline-flex; align-items:center; gap:4px; background:#22c55e; color:#fff; padding:4px 10px; border-radius:8px; font-size:12px; font-weight:700; margin-top:10px; }
+
+/* Real Estate Card */
+.re-stats { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px; }
+.re-stat { padding:12px; background:var(--gray); border-radius:12px; }
+.re-stat .val { font-size:20px; font-weight:800; color:var(--text); }
+.re-stat .label { font-size:11px; color:var(--text3); margin-top:2px; }
+.re-stat .change { font-size:12px; font-weight:600; }
+.re-stat .change.up { color:#22c55e; }
+.re-stat .change.down { color:var(--red); }
+.re-chart { height:48px; display:flex; align-items:flex-end; gap:4px; padding:0 4px; }
+.re-bar { flex:1; background:var(--red); border-radius:4px 4px 0 0; opacity:.7; transition:height .5s ease; }
+
+/* Events Card */
+.event-items { display:flex; flex-direction:column; gap:10px; }
+.event-item { display:flex; gap:12px; align-items:center; }
+.event-date { width:48px; height:48px; background:var(--red); color:#fff; border-radius:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; flex-shrink:0; }
+.event-date .month { font-size:10px; text-transform:uppercase; opacity:.8; }
+.event-date .day { font-size:20px; font-weight:800; }
+.event-info .name { font-size:14px; font-weight:600; color:var(--text); }
+.event-info .loc { font-size:12px; color:var(--text3); margin-top:2px; }
+
+/* Business Card */
+.biz-items { display:flex; flex-direction:column; gap:12px; }
+.biz-item { display:flex; gap:12px; }
+.biz-img { width:64px; height:64px; border-radius:12px; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:28px; }
+.biz-info .name { font-size:14px; font-weight:600; color:var(--text); }
+.biz-info .cat { font-size:11px; color:var(--red); font-weight:600; margin-top:1px; }
+.biz-info .desc { font-size:12px; color:var(--text2); margin-top:4px; line-height:1.4; }
+
+/* === CHAT === */
+.chat-fab { position:fixed; bottom:100px; right:50%; transform:translateX(195px); width:56px; height:56px; background:var(--red); color:#fff; border:none; border-radius:50%; font-size:24px; cursor:pointer; box-shadow:0 4px 16px rgba(224,32,32,.4); z-index:100; transition:all .2s; display:none; }
+.chat-fab:hover { transform:translateX(195px) scale(1.1); }
+.chat-fab.show { display:block; }
+#chatOverlay { position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,.5); z-index:200; display:none; justify-content:center; align-items:flex-end; }
+#chatOverlay.show { display:flex; }
+.chat-panel { width:430px; max-width:100%; height:70vh; background:#fff; border-radius:20px 20px 0 0; display:flex; flex-direction:column; animation:slideUp .3s ease; }
+@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+.chat-header { padding:16px 20px; border-bottom:1px solid var(--gray); display:flex; justify-content:space-between; align-items:center; }
+.chat-header h3 { font-size:16px; font-weight:700; }
+.chat-close { background:none; border:none; font-size:20px; cursor:pointer; color:var(--text3); padding:4px; }
+.chat-messages { flex:1; overflow-y:auto; padding:16px; display:flex; flex-direction:column; gap:12px; }
+.chat-msg { max-width:85%; padding:12px 16px; border-radius:16px; font-size:14px; line-height:1.5; animation:msgIn .3s ease; }
+@keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+.chat-msg.bot { background:var(--gray); color:var(--text); align-self:flex-start; border-bottom-left-radius:4px; }
+.chat-msg.user { background:var(--red); color:#fff; align-self:flex-end; border-bottom-right-radius:4px; }
+.chat-typing { align-self:flex-start; padding:12px 20px; background:var(--gray); border-radius:16px; display:none; }
+.chat-typing span { display:inline-block; width:8px; height:8px; background:var(--text3); border-radius:50%; margin:0 2px; animation:bounce .6s infinite alternate; }
+.chat-typing span:nth-child(2) { animation-delay:.2s; }
+.chat-typing span:nth-child(3) { animation-delay:.4s; }
+@keyframes bounce { to{transform:translateY(-6px);opacity:.4} }
+.chat-chips { display:flex; flex-wrap:wrap; gap:8px; padding:12px 16px; border-top:1px solid var(--gray); }
+.chat-chip { padding:8px 16px; background:var(--gray); border:1.5px solid var(--gray2); border-radius:20px; font-size:13px; cursor:pointer; transition:all .2s; white-space:nowrap; }
+.chat-chip:hover { border-color:var(--red); color:var(--red); }
+.chat-input-row { display:flex; gap:8px; padding:12px 16px; border-top:1px solid var(--gray); }
+.chat-input { flex:1; padding:10px 16px; border:1.5px solid var(--gray2); border-radius:24px; font-size:14px; outline:none; }
+.chat-input:focus { border-color:var(--red); }
+.chat-send { width:40px; height:40px; background:var(--red); color:#fff; border:none; border-radius:50%; cursor:pointer; font-size:18px; }
+
+/* Podcast Card */
+.podcast-card { display:flex; align-items:center; gap:14px; padding:14px; background:var(--gray); border-radius:14px; }
+.podcast-play { width:48px; height:48px; background:var(--red); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; font-size:22px; flex-shrink:0; cursor:pointer; }
+.podcast-info .name { font-size:14px; font-weight:600; }
+.podcast-info .dur { font-size:12px; color:var(--text3); }
+.podcast-wave { flex:1; height:32px; display:flex; align-items:center; gap:2px; }
+.podcast-wave span { width:3px; background:var(--red); border-radius:2px; opacity:.5; }
+
+/* Tab bar */
+.tab-bar { position:fixed; bottom:0; left:50%; transform:translateX(-50%); width:430px; max-width:100%; background:#fff; border-top:1px solid var(--gray2); display:none; padding:8px 0 28px; z-index:50; }
+.tab-bar.show { display:flex; justify-content:space-around; }
+.tab-item { text-align:center; font-size:10px; color:var(--text3); cursor:pointer; padding:4px 0; }
+.tab-item.active { color:var(--red); }
+.tab-item .icon { font-size:22px; display:block; margin-bottom:2px; }
+</style>
+</head>
+<body>
+
+<div class="phone" id="app">
+  <!-- SPLASH -->
+  <div class="screen active" id="splash">
+    <div class="logo">📰</div>
+    <h1>NewsBreak</h1>
+    <div class="subtitle">本地AI助手 · 你的城市，你定制</div>
+    <div class="city-grid">
+      <button class="city-btn" onclick="selectCity('Palo Alto')"><span class="icon">🌲</span><span class="name">Palo Alto</span></button>
+      <button class="city-btn" onclick="selectCity('Mountain View')"><span class="icon">⛰️</span><span class="name">Mountain View</span></button>
+      <button class="city-btn" onclick="selectCity('San Jose')"><span class="icon">🏙️</span><span class="name">San Jose</span></button>
+      <button class="city-btn" onclick="selectCity('Sunnyvale')"><span class="icon">☀️</span><span class="name">Sunnyvale</span></button>
+      <button class="city-btn" onclick="selectCity('San Francisco')"><span class="icon">🌉</span><span class="name">San Francisco</span></button>
+      <button class="city-btn" onclick="selectCity('Menlo Park')"><span class="icon">🏡</span><span class="name">Menlo Park</span></button>
+    </div>
+    <div class="hint">选择你的城市，开启个性化本地助手</div>
+  </div>
+
+  <!-- ONBOARDING -->
+  <div class="screen" id="onboard">
+    <div class="ob-header">
+      <h2>👋 定制你的 <span id="obCity">Palo Alto</span> 助手</h2>
+      <p>选择关注内容，AI为你每日生成</p>
+    </div>
+    <div class="ob-body">
+      <div class="ob-section">
+        <h3>📌 选择关注话题</h3>
+        <div class="topic-grid">
+          <div class="topic-chip selected" onclick="toggleTopic(this)"><span class="check">✓ </span>🛡️ 安全报告</div>
+          <div class="topic-chip selected" onclick="toggleTopic(this)"><span class="check">✓ </span>🏫 学区动态</div>
+          <div class="topic-chip selected" onclick="toggleTopic(this)"><span class="check">✓ </span>🏠 房产</div>
+          <div class="topic-chip" onclick="toggleTopic(this)"><span class="check">✓ </span>📅 活动</div>
+          <div class="topic-chip" onclick="toggleTopic(this)"><span class="check">✓ </span>🏪 商家</div>
+          <div class="topic-chip selected" onclick="toggleTopic(this)"><span class="check">✓ </span>🌤️ 天气</div>
+          <div class="topic-chip" onclick="toggleTopic(this)"><span class="check">✓ </span>🎙️ 播客</div>
+          <div class="topic-chip" onclick="toggleTopic(this)"><span class="check">✓ </span>🏛️ 政府</div>
+        </div>
+      </div>
+      <div class="ob-section">
+        <h3>👶 家有学龄儿童？</h3>
+        <div class="ob-row">
+          <div class="ob-toggle on" onclick="this.classList.toggle('on')"></div>
+          <span style="font-size:14px;color:var(--text)">自动追踪PAUSD学区动态</span>
+        </div>
+      </div>
+      <div class="ob-section">
+        <h3>🚗 通勤路线</h3>
+        <input class="ob-input" placeholder="例如：Palo Alto → Mountain View" value="Palo Alto → Mountain View">
+      </div>
+      <div class="ob-section">
+        <h3>⏰ 推送时间</h3>
+        <div class="ob-row">
+          <input class="ob-input" type="time" value="07:00" style="width:120px">
+          <span style="font-size:14px;color:var(--text2)">每日早间速览</span>
+        </div>
+      </div>
+      <button class="ob-start" onclick="showDashboard()">🚀 开始使用</button>
+    </div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="screen" id="dashboard">
+    <div class="dash-top">
+      <div class="dash-top-row">
+        <div>
+          <div class="dash-city" id="dashCity">📍 Palo Alto</div>
+          <div class="dash-date" id="dashDate"></div>
+        </div>
+        <div class="dash-weather">☀️ 75°F · AQI 59</div>
+      </div>
+    </div>
+    <div class="dash-cards">
+
+      <!-- 今日速览 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">☀️ 今日速览</div>
+          <span class="card-badge green">AI生成</span>
+        </div>
+        <div class="brief-grid">
+          <div class="brief-item"><div class="val">75°</div><div class="label">温度</div></div>
+          <div class="brief-item"><div class="val" style="color:#f59e0b">59</div><div class="label">AQI</div></div>
+          <div class="brief-item"><div class="val">5.3</div><div class="label">UV</div></div>
+          <div class="brief-item"><div class="val" style="color:#22c55e">0%</div><div class="label">降水</div></div>
+        </div>
+        <ul class="brief-news">
+          <li><span class="dot">•</span>🍵 沪上阿姨(Auntea Jenny)将在University Ave开湾区首店，今夏开业</li>
+          <li><span class="dot">•</span>🏫 PAUSD启动新总监搜索，向5-7家公司征集提案</li>
+          <li><span class="dot">•</span>💰 市政府动用$1000万+储备金填预算缺口</li>
+        </ul>
+      </div>
+
+      <!-- 播客 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">🎙️ 今日播客</div>
+          <span class="card-badge">3分钟</span>
+        </div>
+        <div class="podcast-card">
+          <div class="podcast-play">▶</div>
+          <div>
+            <div class="podcast-info"><div class="name">Palo Alto 早间新闻</div><div class="dur">AI语音 · 2月27日</div></div>
+          </div>
+          <div class="podcast-wave" id="podWave"></div>
+        </div>
+      </div>
+
+      <!-- 安全报告 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">🛡️ 安全报告</div>
+          <span class="card-badge orange">本周 3起</span>
+        </div>
+        <div class="safety-items">
+          <div class="safety-item">
+            <div class="safety-icon">⚠️</div>
+            <div class="safety-text">Downtown University Ave 性骚扰案，嫌犯在逃，警方已获监控<br><span class="time">2/19 · 200 University Ave</span></div>
+          </div>
+          <div class="safety-item">
+            <div class="safety-icon">🔓</div>
+            <div class="safety-text">60岁男子在公交站台抢劫高中生，已被电击枪制服逮捕<br><span class="time">本周 · 95 University Ave</span></div>
+          </div>
+          <div class="safety-item">
+            <div class="safety-icon">🚨</div>
+            <div class="safety-text">停车场灭火器攻击事件，一名男子用灭火器喷向他人<br><span class="time">2/26 · 市中心停车场</span></div>
+          </div>
+        </div>
+        <div style="margin-top:12px"><span class="card-more" onclick="alert('查看完整安全报告')">查看完整报告 →</span></div>
+      </div>
+
+      <!-- 学区动态 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">🏫 PAUSD 学区动态</div>
+          <span class="card-badge">家长必看</span>
+        </div>
+        <div class="school-items">
+          <div class="school-item"><div class="icon">📢</div><div class="text"><strong>新总监搜索启动</strong> — Board向5-7家搜索公司征集提案，家长可参与公开意见征集</div></div>
+          <div class="school-item"><div class="icon">✅</div><div class="text"><strong>裁员计划被推翻</strong> — 5-0全票保留所有阅读/数学专家岗位</div></div>
+          <div class="school-item"><div class="icon">💔</div><div class="text"><strong>心理健康支持加强</strong> — Uwill提供家长/staff免费远程心理咨询(3次)</div></div>
+          <div class="school-item"><div class="icon">💰</div><div class="text"><strong>$325万和解</strong> — 前Fletcher中学教师性侵案和解</div></div>
+        </div>
+        <div class="school-rating">⭐ GreatSchools 8-10/10 · 20所学校 · 10,209名学生</div>
+      </div>
+
+      <!-- 房产周报 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">🏠 房产周报</div>
+          <span class="card-more">详情 →</span>
+        </div>
+        <div class="re-stats">
+          <div class="re-stat"><div class="val">$2.6M</div><div class="label">独栋房中位价</div><div class="change up">↑ 4.6% YoY</div></div>
+          <div class="re-stat"><div class="val">7天</div><div class="label">平均售出天数</div><div class="change down">卖方市场</div></div>
+          <div class="re-stat"><div class="val">107%</div><div class="label">成交/挂牌比</div><div class="change up">频繁超价</div></div>
+          <div class="re-stat"><div class="val">18套</div><div class="label">在售房源</div><div class="change">库存紧张</div></div>
+        </div>
+        <div style="font-size:12px;color:var(--text3);margin-bottom:6px">近6月房价趋势</div>
+        <div class="re-chart" id="reChart"></div>
+      </div>
+
+      <!-- 本周活动 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">📅 本周活动</div>
+          <span class="card-more">全部 →</span>
+        </div>
+        <div class="event-items">
+          <div class="event-item">
+            <div class="event-date"><div class="month">2月</div><div class="day">28</div></div>
+            <div class="event-info"><div class="name">🌱 Gamble Garden 园艺工作坊</div><div class="loc">10AM · 1431 Waverley St</div></div>
+          </div>
+          <div class="event-item">
+            <div class="event-date"><div class="month">3月</div><div class="day">1</div></div>
+            <div class="event-info"><div class="name">🏮 元宵节家庭嘉年华</div><div class="loc">11AM · Mitchell Park Community Center</div></div>
+          </div>
+          <div class="event-item">
+            <div class="event-date"><div class="month">3月</div><div class="day">1</div></div>
+            <div class="event-info"><div class="name">🏀 Stanford女篮 vs Clemson</div><div class="loc">TBD · Maples Pavilion</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 商家聚焦 -->
+      <div class="card">
+        <div class="card-head">
+          <div class="card-title">🏪 商家聚焦</div>
+          <span class="card-badge green">新开业</span>
+        </div>
+        <div class="biz-items">
+          <div class="biz-item">
+            <div class="biz-img" style="background:#fff3f3">🍣</div>
+            <div class="biz-info">
+              <div class="name">Yutori</div>
+              <div class="cat">日本餐厅 · 咖啡 · 市集 · 2月底开业</div>
+              <div class="desc">前Google首席寿司厨师主理，5000sqft日本生活方式空间</div>
+            </div>
+          </div>
+          <div class="biz-item">
+            <div class="biz-img" style="background:#f3fff3">🥙</div>
+            <div class="biz-info">
+              <div class="name">All-You-Can-Eat Kebabs & Mezes</div>
+              <div class="cat">地中海 · 无限量 · 已开业</div>
+              <div class="desc">巴西烤肉式服务，服务员不断端烤串和小菜到桌前</div>
+            </div>
+          </div>
+          <div class="biz-item">
+            <div class="biz-img" style="background:#f3f3ff">🍵</div>
+            <div class="biz-info">
+              <div class="name">沪上阿姨 (Auntea Jenny)</div>
+              <div class="cat">鲜果茶 · University Ave · 今夏开业</div>
+              <div class="desc">全球10000+门店中国茶饮品牌，湾区首店</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Chat FAB -->
+<button class="chat-fab" id="chatFab" onclick="openChat()">💬</button>
+
+<!-- Chat Overlay -->
+<div id="chatOverlay">
+  <div class="chat-panel">
+    <div class="chat-header">
+      <h3>🤖 定制你的助手</h3>
+      <button class="chat-close" onclick="closeChat()">✕</button>
+    </div>
+    <div class="chat-messages" id="chatMsgs">
+      <div class="chat-msg bot">你好！我是你的Palo Alto本地AI助手。告诉我你想关注什么，我来帮你定制 ✨</div>
+    </div>
+    <div class="chat-typing" id="chatTyping"><span></span><span></span><span></span></div>
+    <div class="chat-chips" id="chatChips">
+      <div class="chat-chip" onclick="sendChip(this)">只关注Gunn High School</div>
+      <div class="chat-chip" onclick="sendChip(this)">每天早上7点推送</div>
+      <div class="chat-chip" onclick="sendChip(this)">加上通勤路况 PA→MV</div>
+      <div class="chat-chip" onclick="sendChip(this)">关注宠物领养信息</div>
+      <div class="chat-chip" onclick="sendChip(this)">只看中文内容</div>
+      <div class="chat-chip" onclick="sendChip(this)">追踪Zaytinya开业</div>
+    </div>
+    <div class="chat-input-row">
+      <input class="chat-input" id="chatInput" placeholder="输入你的需求..." onkeydown="if(event.key==='Enter')sendMsg()">
+      <button class="chat-send" onclick="sendMsg()">↑</button>
+    </div>
+  </div>
+</div>
+
+<!-- Tab Bar -->
+<div class="tab-bar" id="tabBar">
+  <div class="tab-item active"><span class="icon">🏠</span>首页</div>
+  <div class="tab-item"><span class="icon">🔍</span>发现</div>
+  <div class="tab-item"><span class="icon">📰</span>新闻</div>
+  <div class="tab-item"><span class="icon">🤖</span>AI助手</div>
+  <div class="tab-item"><span class="icon">👤</span>我的</div>
+</div>
+
+<script>
+let currentCity = '';
+
+function selectCity(city) {
+  currentCity = city;
+  document.getElementById('obCity').textContent = city;
+  showScreen('onboard');
+}
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function toggleTopic(el) { el.classList.toggle('selected'); }
+
+function showDashboard() {
+  document.getElementById('dashCity').textContent = '📍 ' + currentCity;
+  const d = new Date();
+  const days = ['周日','周一','周二','周三','周四','周五','周六'];
+  document.getElementById('dashDate').textContent = `${d.getFullYear()}年${d.getMonth()+1}月${d.getDate()}日 ${days[d.getDay()]}`;
+  showScreen('dashboard');
+  document.getElementById('chatFab').classList.add('show');
+  document.getElementById('tabBar').classList.add('show');
+  initCharts();
+}
+
+function initCharts() {
+  // Real estate chart
+  const heights = [65, 70, 68, 75, 78, 82];
+  const chart = document.getElementById('reChart');
+  chart.innerHTML = '';
+  heights.forEach((h, i) => {
+    const bar = document.createElement('div');
+    bar.className = 'bar re-bar';
+    bar.style.height = '0';
+    chart.appendChild(bar);
+    setTimeout(() => bar.style.height = h + '%', 100 + i * 80);
+  });
+  // Podcast wave
+  const wave = document.getElementById('podWave');
+  wave.innerHTML = '';
+  for(let i = 0; i < 24; i++) {
+    const s = document.createElement('span');
+    s.style.height = (8 + Math.random() * 22) + 'px';
+    wave.appendChild(s);
+  }
+}
+
+// Chat
+const responses = {
+  '只关注Gunn High School': '✅ 已设置！学区动态将只追踪 **Gunn High School** 的消息，包括：\n\n• 校董会涉及Gunn的决议\n• Gunn的考试成绩和排名变化\n• 停课/延迟通知\n• Gunn相关活动\n\n其他PAUSD学校的消息将不再推送。',
+  '每天早上7点推送': '⏰ 已设置！每天早上7:00 AM会推送你的个性化速览，包含：\n\n☀️ 天气+AQI\n📰 Top 3本地新闻\n🛡️ 过夜安全事件\n🚗 通勤路况\n\n推送将在7:00准时送达。',
+  '加上通勤路况 PA→MV': '🚗 已添加！每日速览将包含 Palo Alto → Mountain View 的实时通勤信息：\n\n• El Camino Real 路况\n• Hwy 101 拥堵预警\n• Central Expressway 替代路线\n• 预计通勤时间\n\n如遇重大事故会额外推送。',
+  '关注宠物领养信息': '🐕 已开启宠物频道！将为你追踪：\n\n• Pets In Need (PA本地收容所) 新到领养宠物\n• 社区走失宠物公告\n• 免费领养活动\n\n目前PA有一只American Eskimo迷你型正在寻找新家！',
+  '只看中文内容': '🇨🇳 已切换为中文优先模式！\n\n• AI摘要全部使用中文\n• 优先展示中文社区相关内容\n• 英文新闻自动翻译摘要\n\n注意：部分原始链接仍为英文。',
+  '追踪Zaytinya开业': '🍽️ 已设置追踪！José Andrés的Zaytinya预计在Stanford Shopping Center开业，我会持续关注：\n\n• 确切开业日期公布\n• 菜单和预约信息\n• 开业优惠\n• 食评\n\n有新消息会第一时间通知你！'
+};
+
+function openChat() { document.getElementById('chatOverlay').classList.add('show'); }
+function closeChat() { document.getElementById('chatOverlay').classList.remove('show'); }
+
+function sendChip(el) {
+  const text = el.textContent;
+  el.style.display = 'none';
+  addMsg(text, 'user');
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+    addMsg(responses[text] || '✅ 已记录你的偏好，我会相应调整推送内容！', 'bot');
+  }, 1200 + Math.random() * 800);
+}
+
+function sendMsg() {
+  const input = document.getElementById('chatInput');
+  const text = input.value.trim();
+  if (!text) return;
+  input.value = '';
+  addMsg(text, 'user');
+  showTyping();
+  setTimeout(() => {
+    hideTyping();
+    addMsg('✅ 明白！我已经更新了你的偏好设置。这个变更会在下次推送中生效。还有什么需要调整的吗？', 'bot');
+  }, 1500);
+}
+
+function addMsg(text, type) {
+  const msgs = document.getElementById('chatMsgs');
+  const div = document.createElement('div');
+  div.className = 'chat-msg ' + type;
+  div.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+  msgs.appendChild(div);
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() { document.getElementById('chatTyping').style.display = 'block'; }
+function hideTyping() { document.getElementById('chatTyping').style.display = 'none'; }
+
+// Close chat on overlay click
+document.getElementById('chatOverlay').addEventListener('click', function(e) {
+  if (e.target === this) closeChat();
+});
+</script>
+
+</body>
+</html>
