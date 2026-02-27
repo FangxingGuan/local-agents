@@ -199,6 +199,18 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
 /* Toast */
 .toast { position:fixed; top:40px; left:50%; transform:translateX(-50%); background:var(--dark); color:#fff; padding:12px 24px; border-radius:12px; font-size:14px; z-index:300; display:none; animation:fadeIn .3s; }
 .toast.show { display:block; }
+
+/* Source links */
+.news-link { color:var(--text); text-decoration:none; transition:color .2s; }
+.news-link:hover { color:var(--red); }
+.src-link { color:var(--red); font-size:11px; font-weight:600; opacity:.8; }
+.safety-item[onclick], .school-item[onclick], .event-item[onclick], .biz-item[onclick], .gov-item[onclick], .pet-item[onclick] { cursor:pointer; transition:background .2s; }
+.safety-item[onclick]:hover, .pet-item[onclick]:hover { background:var(--gray2); }
+.school-item[onclick]:hover .text, .gov-item[onclick]:hover .text { color:var(--red); }
+.event-item[onclick]:hover .name, .biz-item[onclick]:hover .name { color:var(--red); }
+
+/* RE card source */
+.re-source { font-size:11px; color:var(--text3); margin-top:8px; }
 </style>
 </head>
 <body>
@@ -291,9 +303,9 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
           <div class="brief-item"><div class="val" style="color:#22c55e">0%</div><div class="label">降水</div></div>
         </div>
         <ul class="brief-news">
-          <li><span class="dot">•</span>🍵 沪上阿姨将在University Ave开湾区首店，今夏开业</li>
-          <li><span class="dot">•</span>🏫 PAUSD启动新总监搜索，向5-7家公司征集提案</li>
-          <li><span class="dot">•</span>💰 市政府动用$1000万+储备金填预算缺口</li>
+          <li><span class="dot">•</span><a href="https://www.paloaltoonline.com/palo-alto/2026/02/25/chinese-tea-chain-plans-bay-area-debut-in-downtown-palo-alto/" target="_blank" class="news-link">🍵 沪上阿姨将在University Ave开湾区首店，今夏开业</a></li>
+          <li><span class="dot">•</span><a href="https://www.pausd.org/about-us/superintendent-search" target="_blank" class="news-link">🏫 PAUSD启动新总监搜索，向5-7家公司征集提案</a></li>
+          <li><span class="dot">•</span><a href="https://www.paloaltoonline.com/city-government/2026/02/24/palo-alto-leans-on-reserves-to-plug-growing-budget-hole/" target="_blank" class="news-link">💰 市政府动用$1000万+储备金填预算缺口</a></li>
         </ul>
         <div class="commute-box" id="commuteBox" style="display:none">
           <div class="icon">🚗</div>
@@ -321,9 +333,9 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
           <span class="card-badge orange">本周 3起</span>
         </div>
         <div class="safety-items">
-          <div class="safety-item"><div class="safety-icon">⚠️</div><div class="safety-text">Downtown University Ave 性骚扰案，嫌犯在逃<br><span class="time">2/19 · 200 University Ave</span></div></div>
-          <div class="safety-item"><div class="safety-icon">🔓</div><div class="safety-text">60岁男子公交站台抢劫高中生，已被逮捕<br><span class="time">本周 · 95 University Ave</span></div></div>
-          <div class="safety-item"><div class="safety-icon">🚨</div><div class="safety-text">停车场灭火器攻击事件<br><span class="time">2/26 · 市中心停车场</span></div></div>
+          <div class="safety-item" onclick="window.open('https://www.paloaltoonline.com/crime/2026/02/26/palo-alto-police-seek-suspect-in-downtown-sexual-battery/','_blank')"><div class="safety-icon">⚠️</div><div class="safety-text">Downtown University Ave 性骚扰案，嫌犯在逃<br><span class="time">2/19 · 200 University Ave · <span class="src-link">Palo Alto Online ↗</span></span></div></div>
+          <div class="safety-item" onclick="window.open('https://patch.com/california/paloalto/man-arrested-attempted-robbery-teen-bus-depot','_blank')"><div class="safety-icon">🔓</div><div class="safety-text">60岁男子公交站台抢劫高中生，已被逮捕<br><span class="time">本周 · 95 University Ave · <span class="src-link">Patch ↗</span></span></div></div>
+          <div class="safety-item" onclick="window.open('https://www.uscrimeradar.com/palo-alto-ca','_blank')"><div class="safety-icon">🚨</div><div class="safety-text">停车场灭火器攻击事件<br><span class="time">2/26 · 市中心停车场 · <span class="src-link">CrimeRadar ↗</span></span></div></div>
         </div>
         <div style="margin-top:12px"><span class="card-more">查看完整报告 →</span></div>
       </div>
@@ -336,10 +348,10 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
         </div>
         <div id="schoolFilterTag" style="margin-bottom:10px;display:none"><span class="school-filter">🎯 只追踪: <span id="schoolFilterName"></span></span></div>
         <div class="school-items">
-          <div class="school-item"><div class="icon">📢</div><div class="text"><strong>新总监搜索启动</strong> — Board向5-7家搜索公司征集提案</div></div>
-          <div class="school-item"><div class="icon">✅</div><div class="text"><strong>裁员计划被推翻</strong> — 5-0全票保留阅读/数学专家</div></div>
-          <div class="school-item"><div class="icon">💔</div><div class="text"><strong>心理健康支持</strong> — Uwill提供3次免费远程咨询</div></div>
-          <div class="school-item"><div class="icon">💰</div><div class="text"><strong>$325万和解</strong> — 前Fletcher中学教师性侵案</div></div>
+          <div class="school-item" onclick="window.open('https://www.pausd.org/about-us/superintendent-search','_blank')"><div class="icon">📢</div><div class="text"><strong>新总监搜索启动</strong> — Board向5-7家搜索公司征集提案 <span class="src-link">PAUSD ↗</span></div></div>
+          <div class="school-item" onclick="window.open('https://www.paloaltoonline.com/palo-alto-schools/2026/02/11/facing-criticism-palo-alto-schools-prepare-to-reverse-staff-cuts/','_blank')"><div class="icon">✅</div><div class="text"><strong>裁员计划被推翻</strong> — 5-0全票保留阅读/数学专家 <span class="src-link">PA Online ↗</span></div></div>
+          <div class="school-item" onclick="window.open('https://www.pausd.org/about-us/news/all/news/~board/sup/post/superintendents-update-february-13-2026-1771010450367','_blank')"><div class="icon">💔</div><div class="text"><strong>心理健康支持</strong> — Uwill提供3次免费远程咨询 <span class="src-link">PAUSD ↗</span></div></div>
+          <div class="school-item" onclick="window.open('https://www.paloaltoonline.com/palo-alto-schools/2026/02/18/teacher-reaches-multi-million-dollar-settlement-in-lawsuit-against-school-district/','_blank')"><div class="icon">💰</div><div class="text"><strong>$325万和解</strong> — 前Fletcher中学教师性侵案 <span class="src-link">PA Online ↗</span></div></div>
         </div>
         <div class="school-rating">⭐ GreatSchools 8-10/10 · 20所学校</div>
       </div>
@@ -358,6 +370,7 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
         </div>
         <div style="font-size:12px;color:var(--text3);margin-bottom:6px">近6月房价趋势</div>
         <div class="re-chart" id="reChart"></div>
+        <div class="re-source">数据来源: <a href="https://www.zillow.com/home-values/32999/palo-alto-ca/" target="_blank" class="src-link">Zillow</a> · <a href="https://www.redfin.com/city/14141/CA/Palo-Alto/housing-market" target="_blank" class="src-link">Redfin</a> · <a href="https://www.freddiemac.com/pmms" target="_blank" class="src-link">Freddie Mac</a></div>
       </div>
 
       <!-- 活动 -->
@@ -367,9 +380,9 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
           <span class="card-more">全部 →</span>
         </div>
         <div class="event-items">
-          <div class="event-item"><div class="event-date"><div class="month">2月</div><div class="day">28</div></div><div class="event-info"><div class="name">🌱 Gamble Garden 园艺工作坊</div><div class="loc">10AM · 1431 Waverley St</div></div></div>
-          <div class="event-item"><div class="event-date"><div class="month">3月</div><div class="day">1</div></div><div class="event-info"><div class="name">🏮 元宵节家庭嘉年华</div><div class="loc">11AM · Mitchell Park</div></div></div>
-          <div class="event-item"><div class="event-date"><div class="month">3月</div><div class="day">1</div></div><div class="event-info"><div class="name">🏀 Stanford女篮 vs Clemson</div><div class="loc">TBD · Maples Pavilion</div></div></div>
+          <div class="event-item" onclick="window.open('https://www.gamblegarden.org','_blank')"><div class="event-date"><div class="month">2月</div><div class="day">28</div></div><div class="event-info"><div class="name">🌱 Gamble Garden 园艺工作坊</div><div class="loc">10AM · 1431 Waverley St · <span class="src-link">详情 ↗</span></div></div></div>
+          <div class="event-item" onclick="window.open('https://www.eventbrite.com/e/2026-palo-alto-lunar-new-year-fair-tickets-1981489666934','_blank')"><div class="event-date"><div class="month">3月</div><div class="day">1</div></div><div class="event-info"><div class="name">🏮 元宵节家庭嘉年华</div><div class="loc">11AM · Mitchell Park · <span class="src-link">Eventbrite ↗</span></div></div></div>
+          <div class="event-item" onclick="window.open('https://gostanford.com/sports/womens-basketball','_blank')"><div class="event-date"><div class="month">3月</div><div class="day">1</div></div><div class="event-info"><div class="name">🏀 Stanford女篮 vs Clemson</div><div class="loc">TBD · Maples Pavilion · <span class="src-link">GoStanford ↗</span></div></div></div>
         </div>
       </div>
 
@@ -380,9 +393,9 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
           <span class="card-badge green">新开业</span>
         </div>
         <div class="biz-items">
-          <div class="biz-item"><div class="biz-img" style="background:#fff3f3">🍣</div><div class="biz-info"><div class="name">Yutori</div><div class="cat">日本餐厅 · 2月底开业</div><div class="desc">前Google首席寿司厨师，5000sqft日本生活方式空间</div></div></div>
-          <div class="biz-item"><div class="biz-img" style="background:#f3fff3">🥙</div><div class="biz-info"><div class="name">All-You-Can-Eat Kebabs</div><div class="cat">地中海 · 已开业</div><div class="desc">巴西烤肉式服务，无限量烤串和小菜</div></div></div>
-          <div class="biz-item"><div class="biz-img" style="background:#f3f3ff">🍵</div><div class="biz-info"><div class="name">沪上阿姨 (Auntea Jenny)</div><div class="cat">鲜果茶 · 今夏开业</div><div class="desc">全球10000+门店，湾区首店在University Ave</div></div></div>
+          <div class="biz-item" onclick="window.open('https://www.sfbayareatimes.com/posts/bay-area-dining-openings-february-2026-weekend-getaways','_blank')"><div class="biz-img" style="background:#fff3f3">🍣</div><div class="biz-info"><div class="name">Yutori</div><div class="cat">日本餐厅 · 2月底开业</div><div class="desc">前Google首席寿司厨师，5000sqft日本生活方式空间 <span class="src-link">SF Bay Area Times ↗</span></div></div></div>
+          <div class="biz-item" onclick="window.open('https://nationaltoday.com/us/ca/palo-alto/news/2026/02/26/new-palo-alto-restaurant-offers-all-you-can-eat-kebabs-and-mezes/','_blank')"><div class="biz-img" style="background:#f3fff3">🥙</div><div class="biz-info"><div class="name">All-You-Can-Eat Kebabs</div><div class="cat">地中海 · 已开业</div><div class="desc">巴西烤肉式服务，无限量烤串和小菜 <span class="src-link">National Today ↗</span></div></div></div>
+          <div class="biz-item" onclick="window.open('https://www.paloaltoonline.com/palo-alto/2026/02/25/chinese-tea-chain-plans-bay-area-debut-in-downtown-palo-alto/','_blank')"><div class="biz-img" style="background:#f3f3ff">🍵</div><div class="biz-info"><div class="name">沪上阿姨 (Auntea Jenny)</div><div class="cat">鲜果茶 · 今夏开业</div><div class="desc">全球10000+门店，湾区首店在University Ave <span class="src-link">PA Online ↗</span></div></div></div>
         </div>
       </div>
 
@@ -393,10 +406,10 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
           <span class="card-more">详情 →</span>
         </div>
         <div class="gov-items">
-          <div class="gov-item"><div class="icon">💰</div><div class="text"><strong>预算缺口$1000万+</strong> — 动用储备金，汽车销售税+州法规变化导致</div></div>
-          <div class="gov-item"><div class="icon">🏗️</div><div class="text"><strong>Barron Park 321户公寓被否</strong> — 交通安全问题</div></div>
-          <div class="gov-item"><div class="icon">🚇</div><div class="text"><strong>Churchill铁路道口关闭讨论</strong> — 加速推进中</div></div>
-          <div class="gov-item"><div class="icon">🏪</div><div class="text"><strong>El Camino零售保护区</strong> — 防止商业被住宅取代</div></div>
+          <div class="gov-item" onclick="window.open('https://www.paloaltoonline.com/city-government/2026/02/24/palo-alto-leans-on-reserves-to-plug-growing-budget-hole/','_blank')"><div class="icon">💰</div><div class="text"><strong>预算缺口$1000万+</strong> — 动用储备金 <span class="src-link">PA Online ↗</span></div></div>
+          <div class="gov-item" onclick="window.open('https://www.paloaltoonline.com/land-use/2026/02/12/commissioners-pan-barron-park-housing-project-over-traffic-impacts/','_blank')"><div class="icon">🏗️</div><div class="text"><strong>Barron Park 321户公寓被否</strong> — 交通安全 <span class="src-link">PA Online ↗</span></div></div>
+          <div class="gov-item" onclick="window.open('https://www.paloaltoonline.com/city-government/2026/02/10/palo-alto-to-explore-closing-churchill-rail-crossing-at-communitys-urging/','_blank')"><div class="icon">🚇</div><div class="text"><strong>Churchill铁路道口关闭讨论</strong> — 加速推进 <span class="src-link">PA Online ↗</span></div></div>
+          <div class="gov-item" onclick="window.open('https://www.paloaltoonline.com/business/2026/02/04/city-to-create-retail-zones-on-el-camino-amid-housing-influx/','_blank')"><div class="icon">🏪</div><div class="text"><strong>El Camino零售保护区</strong> — 防商业被住宅取代 <span class="src-link">PA Online ↗</span></div></div>
         </div>
       </div>
 
@@ -407,9 +420,9 @@ body { font-family: -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","H
           <span class="card-badge green">领养</span>
         </div>
         <div class="pet-items">
-          <div class="pet-item"><div class="pet-img">🐕</div><div class="pet-info"><div class="name">American Eskimo 迷你型</div><div class="desc">Palo Alto · 免费领养 · 寻找新家</div></div></div>
-          <div class="pet-item"><div class="pet-img">🐈</div><div class="pet-info"><div class="name">走失猫 "Simba"</div><div class="desc">金色短毛 · 94303区域 · 1/24走失</div></div></div>
-          <div class="pet-item"><div class="pet-img">🐶</div><div class="pet-info"><div class="name">走失 Swiss Shepherd幼犬</div><div class="desc">白色 · East Palo Alto · 2/9走失</div></div></div>
+          <div class="pet-item" onclick="window.open('https://sfbay.craigslist.org/pen/pet/d/palo-alto-american-eskimo-miniature/7913519416.html','_blank')"><div class="pet-img">🐕</div><div class="pet-info"><div class="name">American Eskimo 迷你型</div><div class="desc">Palo Alto · 免费领养 <span class="src-link">Craigslist ↗</span></div></div></div>
+          <div class="pet-item" onclick="window.open('https://www.lostmykitty.com/missing-pets.cfm?zipcode=94303','_blank')"><div class="pet-img">🐈</div><div class="pet-info"><div class="name">走失猫 "Simba"</div><div class="desc">金色短毛 · 94303 · 1/24走失 <span class="src-link">LostMyKitty ↗</span></div></div></div>
+          <div class="pet-item" onclick="window.open('https://pet911.org/east-palo-alto/lost-dogs','_blank')"><div class="pet-img">🐶</div><div class="pet-info"><div class="name">走失 Swiss Shepherd幼犬</div><div class="desc">白色 · East Palo Alto · 2/9走失 <span class="src-link">Pet911 ↗</span></div></div></div>
         </div>
         <div style="margin-top:10px;font-size:12px;color:var(--text3)">📞 Pets In Need (650) 496-5971</div>
       </div>
